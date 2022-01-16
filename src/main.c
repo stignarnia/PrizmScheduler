@@ -21,7 +21,7 @@ int roundNum(float);
 int power(int, int);
 
 int main() {
-    int ltot, t0, sstresh, rcvwnd, sndwnd, cwndInt, boolOut, bOff, firstNoSS = 1, i;
+    int ltot, t0, sstresh, rcvwnd, sndwnd, cwndInt, cwndIntTmp, boolOut, bOff, firstNoSS = 1, i;
     float cwnd;
     char final[MAXCHAR*TOTLINES];
 
@@ -62,8 +62,9 @@ int main() {
                     firstNoSS = 0;
                 }
                 cwnd += ((float)sndwnd / (float)cwndInt);
-                if ((int)cwnd >= (cwndInt + 1)) {
-                    cwndInt = (int)cwnd;
+                cwndIntTmp = roundNum(cwnd);
+                if (cwndIntTmp >= (cwndInt + 1)) {
+                    cwndInt = cwndIntTmp;
                 }
             }
         } else {
@@ -133,7 +134,11 @@ int backOff(int t0) {
     char question[MAXCHAR*TOTLINES];
 
     for (int i = 1; boolOut; i++) {
-        t += power(t0, i);
+        if (i > 3) {
+            t += power(t0, 4);
+        } else {
+            t += power(t0, i);
+        }
         sprintf(question, "%d\nIS IT STILL DOWN\nAFTER THIS MANY\nRTTs?\n0 OR 1\n1 IS DOWN\n", t);
 
         do {
