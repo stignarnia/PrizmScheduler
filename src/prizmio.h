@@ -25,6 +25,7 @@ int printStr(char*, int);
 void printAndWait(char*, int);
 int readInt();
 int readBool();
+float readFloat();
 void readBuf(int, int, char*);
 void waitUser();
 
@@ -125,6 +126,21 @@ int readInt() {
     } while (ovf);
 
     return ans;
+}
+
+float readFloat() {
+    int num, den;
+    float res;
+
+    printStr("What is the\nnumerator?\n", TEXT_COLOR_BLACK);
+    num = readInt();
+    printStr("What is the\ndenominator?\nnot 0\n", TEXT_COLOR_BLACK);
+    do {
+        den = readInt();
+    } while (den == 0);
+    res = ((float)num) / ((float)den);
+    
+    return res;
 }
 
 int readBool() {

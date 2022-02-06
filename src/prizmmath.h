@@ -13,7 +13,8 @@ int roundUp(float);
 int power(int, int);
 int max(int, int);
 int min(int, int);
-int iOfMin(int*, int, int);
+int iOfMin(float*, int, int);
+int iOfMax(float*, int, int);
 int arraySum(int*, int);
 
 int roundNum(float num) {
@@ -26,8 +27,7 @@ int roundUp(float num) {
     if (num == (float)inum) {
         return inum;
     } else if (num < 0) {
-        printStr("ROUNDUP ERR: 0x08\nNEGATIVE NUMBER\nCURRENTLY\nUNSUPPORTED\nEXE > EXIT TO ACK\n", TEXT_COLOR_RED);
-        waitUser();
+        printAndWait("ROUNDUP ERR: 0x08\nNEGATIVE NUMBER\nCURRENTLY\nUNSUPPORTED\nEXE > EXIT TO ACK\n", TEXT_COLOR_RED);
         return -1;
     }
 
@@ -40,8 +40,7 @@ int power(int num, int exp) {
     if (exp == 0) {
         return res;
     } else if (exp < 0) {
-        printStr("POW ERR: 0x09\nNEGATIVE EXP\nRESULT IS -1\nEXE > EXIT TO ACK\n", TEXT_COLOR_RED);
-        waitUser();
+        printAndWait("POW ERR: 0x09\nNEGATIVE EXP\nRESULT IS -1\nEXE > EXIT TO ACK\n", TEXT_COLOR_RED);
         return -1;
     }
 
@@ -66,11 +65,32 @@ int min(int x, int y) {
     }
 }
 
-int iOfMin(int* arr, int dim, int criteria) {
+int iOfMin(float* arr, int dim, int criteria) {
     int res = 0;
 
     for (int i = 0; i < dim; i++) {
         if (arr[i] < arr[res]) {
+            res = i;
+        } else if ((arr[i] == arr[res]) && (i != res)) {
+            if (criteria == 1) {
+                res = i;
+            } else if (criteria == 2) {
+                printStr("Two elements\nin different\npositions are\nthe same value\nDo you want to\nselect the latest?\n[0/1] 1 is yes\n", TEXT_COLOR_BLACK);
+                if (readBool()) {
+                    res = i;
+                }
+            }
+        }
+    }
+
+    return res;
+}
+
+int iOfMax(float* arr, int dim, int criteria) {
+    int res = 0;
+
+    for (int i = 0; i < dim; i++) {
+        if (((arr[i] > arr[res]) && (arr[i] != OVERFLOW)) || (arr[res] == OVERFLOW)) {
             res = i;
         } else if ((arr[i] == arr[res]) && (i != res)) {
             if (criteria == 1) {
@@ -93,6 +113,23 @@ int arraySum(int* arr, int dim) {
     for (int i = 0; i < dim; i++) {
         res += arr[i];
     }
+
+    return res;
+}
+
+float squareRoot(float num) {
+    float res = 0.01;
+
+    if (num == 0) {
+        return 0;
+    } else if (num < 0) {
+        printAndWait("SQRT ERR: 0x0A\nNEGATIVE NUM\nRESULT IS -1\nEXE > EXIT TO ACK\n", TEXT_COLOR_RED);
+        return -1;
+    }
+
+	while ((res * res) < num) {
+		res += 0.01;
+	}
 
     return res;
 }

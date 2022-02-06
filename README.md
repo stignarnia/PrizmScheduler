@@ -4,7 +4,15 @@ A simplified CPU scheduler simulator for CASIO PRIZM calculators like the **fx-C
  
 This **isn't** an actual CPU scheduler, just a simulator of various algorithms to see how they work and evolve over time.
   
-I built this using excercises from the IT systems course at my university so it might not reflect reality and contain several simpifications that were made to make those excercises doable by hand.
+I built this using excercises from the IT systems course at my university so it might not reflect reality and contain several simpifications that were made to make those excercises doable by hand. 
+ 
+## Features
+- Earliest Deadline First;
+- EDF*;
+- Total Bandwidth Server;
+- TBS*;
+- Dover;
+- Response Time Analysis.
 
 ## How to install
 
